@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask import jsonify
+from flask_cors import CORS
 from threading import Lock
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
+CORS(app)
 
 # 初始化数据
 data = {
@@ -61,7 +63,7 @@ data = {
         "registered_voters": 13452016,
     },
     "ticker_text": "投票時間結束 各開票所陸續回報狀態中",
-    "display_mode": "presidential",
+    "display_mode": "legislative",
 }
 
 lock = Lock()
@@ -118,9 +120,9 @@ def display():
 
 @app.route("/data")
 def get_data():
-    return jsonify(data)
+    return data
 
 
 if __name__ == "__main__":
     app.jinja_env.globals.update(enumerate=enumerate)
-    app.run(debug=True)
+    app.run(debug=True, port=5050)
