@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
+from flask import jsonify
 from threading import Lock
 
 app = Flask(__name__)
+app.config["JSON_AS_ASCII"] = False
 
 # 初始化数据
 data = {
@@ -112,6 +114,11 @@ def update():
 @app.route("/display")
 def display():
     return render_template("display.html", data=data)
+
+
+@app.route("/data")
+def get_data():
+    return jsonify(data)
 
 
 if __name__ == "__main__":
