@@ -27,7 +27,7 @@ def auto_switch_display_mode():
     while True:
         with lock:
             data = load_data()
-            if data["auto_display"] == True:
+            if data["auto_display"] == "true":
                 current_mode = data["display_mode"]
                 next_mode = {
                     "presidential": "legislative",
@@ -36,8 +36,7 @@ def auto_switch_display_mode():
                 }[current_mode]
                 data["display_mode"] = next_mode
                 save_data(data)
-                print(f"[Auto Switch] Switched to {next_mode}")
-        time.sleep(30)
+        time.sleep(20)
 
 
 threading.Thread(target=auto_switch_display_mode, daemon=True).start()
@@ -56,43 +55,38 @@ def update():
         election_type = request.form["election_type"]
 
         if election_type == "presidential":
-            total_votes = 0
+            total_votes = data["presidential"]["total_votes"]
             for i, candidate in enumerate(data["presidential"]["candidates"]):
                 candidate["votes"] = int(request.form[f"presidential_{i}_votes"])
                 candidate["elected"] = f"presidential_{i}_elected" in request.form
-                total_votes += candidate["votes"]
-            data["presidential"]["total_votes"] = total_votes
+
             for candidate in data["presidential"]["candidates"]:
-                candidate["percentage"] = (
-                    (candidate["votes"] / total_votes * 100) if total_votes > 0 else 0
-                )
+                candidate["percentage"] = round((candidate["votes"] / total_votes * 100), 1) if total_votes > 0 else 0
 
         elif election_type == "legislative":
             for area in data["legislative"]["areas"]:
-                total_votes = 0
+                total_votes = area["total_votes"]
                 for i, candidate in enumerate(area["candidates"]):
-                    candidate["votes"] = int(
-                        request.form[f'{area["area"]}_candidate_{i}_votes']
-                    )
-                    candidate["elected"] = (
-                        f'{area["area"]}_candidate_{i}_elected' in request.form
-                    )
-                    total_votes += candidate["votes"]
-                area["total_votes"] = total_votes
+                    candidate["votes"] = int(request.form[f'{area["area"]}_candidate_{i}_votes'])
+                    candidate["elected"] = f'{area["area"]}_candidate_{i}_elected' in request.form
+
                 for candidate in area["candidates"]:
-                    candidate["percentage"] = (
-                        (candidate["votes"] / total_votes * 100)
-                        if total_votes > 0
-                        else 0
-                    )
+                    candidate["percentage"] = round((candidate["votes"] / total_votes * 100), 1) if total_votes > 0 else 0
 
         elif election_type == "proportional":
-            for group in data["proportional"]["seats"]:
-                data["proportional"]["seats"][group]["percentage"] = float(
-                    request.form[f"{group}_percentage"]
-                )
-            data["proportional"]["total_seats"] = int(request.form["total_seats"])
-            data["proportional"]["total_votes"] = int(request.form["total_votes"])
+            total_votes = int(request.form["proportional_total_votes"])
+            total_seats = int(request.form["proportional_total_seats"])
+            seat_quota = total_votes / total_seats
+            data["proportional"]["total_votes"] = total_votes
+            data["proportional"]["total_seats"] = total_seats
+            for group, details in data["proportional"]["seats"].items():
+                details["votes"] = int(request.form[f'{group}_votes'])
+                details["percentage"] = round((details["votes"] / total_votes * 100), 2) if total_votes > 0 else 0
+                manual_seats = int(request.form.get(f"{group}_manual_seats", 0))
+                if manual_seats > 0:
+                    details["seats"] += manual_seats
+                else:
+                    details["seats"] = int(details["votes"] // seat_quota)
 
         elif election_type == "ticker":
             data["ticker_text"] = request.form["ticker_text"]
@@ -101,9 +95,10 @@ def update():
             form_display_mode = request.form["display_mode"]
 
             if form_display_mode == "auto":
-                data["auto_display"] = True
+                data["auto_display"] = "true"
+
             else:
-                data["auto_display"] = False
+                data["auto_display"] = "false"
                 data["display_mode"] = request.form["display_mode"]
 
         save_data(data)
