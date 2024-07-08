@@ -1,0 +1,122 @@
+{
+    "presidential": {
+        "candidates": [
+            {
+                "name": "唐子涵/吳亞旗",
+                "votes": 0,
+                "elected": false,
+                "percentage": 0.0
+            },
+            {
+                "name": "張璿婷/陳宣宇",
+                "votes": 0,
+                "elected": false,
+                "percentage": 0.0
+            },
+            {
+                "name": "鄭大邦/王宇彤",
+                "votes": 0,
+                "elected": false,
+                "percentage": 0.0
+            }
+        ],
+        "total_votes": 580
+    },
+    "legislative": {
+        "areas": [
+            {
+                "area": "中土都心",
+                "candidates": [
+                    {
+                        "name": "哈囉",
+                        "votes": 0,
+                        "elected": false,
+                        "percentage": 0.0
+                    },
+                    {
+                        "name": "莊宸綾",
+                        "votes": 0,
+                        "elected": false,
+                        "percentage": 0.0
+                    },
+                    {
+                        "name": "謝啟昱",
+                        "votes": 0,
+                        "elected": false,
+                        "percentage": 0.0
+                    }
+                ],
+                "total_votes": 196
+            },
+            {
+                "area": "迦太基港都",
+                "candidates": [
+                    {
+                        "name": "李雅淇",
+                        "votes": 0,
+                        "elected": false,
+                        "percentage": 0.0
+                    },
+                    {
+                        "name": "賴成祐",
+                        "votes": 0,
+                        "elected": false,
+                        "percentage": 0.0
+                    },
+                    {
+                        "name": "林哲豪",
+                        "votes": 0,
+                        "elected": false,
+                        "percentage": 0.0
+                    }
+                ],
+                "total_votes": 192
+            },
+            {
+                "area": "艾爾夫礦林",
+                "candidates": [
+                    {
+                        "name": "王亭勻",
+                        "votes": 0,
+                        "elected": false,
+                        "percentage": 0.0
+                    },
+                    {
+                        "name": "王喜樂",
+                        "votes": 0,
+                        "elected": false,
+                        "percentage": 0.0
+                    },
+                    {
+                        "name": "王育晟",
+                        "votes": 0,
+                        "elected": false,
+                        "percentage": 0.0
+                    }
+                ],
+                "total_votes": 192
+            }
+        ]
+    },
+    "proportional": {
+        "seats": {
+            "建制派": {
+                "seats": 0,
+                "percentage": 0.0
+            },
+            "中間": {
+                "seats": 0,
+                "percentage": 0.0
+            },
+            "左派": {
+                "seats": 0,
+                "percentage": 0.0
+            }
+        },
+        "total_seats": 8,
+        "total_votes": 580
+    },
+    "ticker_text": "投票時間結束 各開票所陸續回報狀態中",
+    "ticker_font_size": 50,
+    "display_mode": "legislative"
+}
