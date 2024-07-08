@@ -4,99 +4,179 @@
     <meta charset="UTF-8">
     <title>選舉結果管理後台</title>
     <style>
+        .btn-large {
+            font-size: 20px;
+        }
         .section {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .section h2, .section h3 {
+            margin-bottom: 10px;
+        }
+        .section label {
+            margin-right: 10px;
+        }
+        .section input[type="number"] {
+            width: 50px;
+        }
+        .section input[type="text"] {
+            width: 70px;
+        }
+        #ticker-section .long-input {
+            width: 250px;
+        }
+        .flex-container {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+        .flex-item {
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+        .horizontal-container {
+            display: flex;
+            justify-content: flex-start;
+        }
+        .horizontal-container .section {
+            margin-bottom: 10px;
+            margin-right: 45px;
+        }
+        .indicator {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+        .indicator.active {
+            background-color: green;
         }
     </style>
+    <script>
+        function checkAutoMode(autoDisplay) {
+            const indicator = document.getElementById('auto-mode-indicator');
+
+            if (autoDisplay === "true") {
+                indicator.classList.add('active');
+            } else {
+                indicator.classList.remove('active');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const autoDisplay = "{{ data.auto_display }}";
+            checkAutoMode(autoDisplay);
+        });
+    </script>
 </head>
 <body>
     <h1>選舉結果管理後台</h1>
 
-    <a href="https://vote.ntupscamp.fun/" target="_blank">打開前台顯示</a>
+   <form action="https://vote.ntupscamp.fun/" target="_blank">
+            <input type="submit" value="打開前台" class="btn-large" />
+   </form>
 
-    <div class="section">
-        <h2>總統選舉候選人</h2>
-        <form method="POST" action="/update">
-            <input type="hidden" name="election_type" value="presidential">
-            <label>總票數</label>
-            <input type="number" name="presidential_total_votes" value="{{ data.presidential.total_votes }}" readonly>
-            <br>
-            {% for i, candidate in enumerate(data.presidential.candidates) %}
-                <input type="checkbox" name="presidential_{{ i }}_elected" {% if candidate.elected %}checked{% endif %}>
-                <label>{{ candidate.name }}</label>
-                <input type="number" name="presidential_{{ i }}_votes" value="{{ candidate.votes }}" min="0">
-                <label>得票率</label>
-                <input type="text" value="{{ candidate.percentage }}%" readonly>
+    <div class="horizontal-container">
+        <div class="section">
+            <h2>總統選舉候選人</h2>
+            <form method="POST" action="/update">
+                <input type="hidden" name="election_type" value="presidential">
+                <label>總票數</label>
+                <input type="number" name="presidential_total_votes" value="{{ data.presidential.total_votes }}" readonly>
                 <br>
-            {% endfor %}
-            <button type="submit">更新總統選舉數據</button>
-        </form>
+                {% for i, candidate in enumerate(data.presidential.candidates) %}
+                    <input type="checkbox" name="presidential_{{ i }}_elected" {% if candidate.elected %}checked{% endif %}>
+                    <label>{{ candidate.name }}</label>
+                    <input type="number" name="presidential_{{ i }}_votes" value="{{ candidate.votes }}" min="0">
+                    <label>得票率</label>
+                    <input type="text" value="{{ candidate.percentage }}%" readonly>
+                    <br>
+                {% endfor %}
+                <button type="submit">更新總統選舉數據</button>
+            </form>
+        </div>
+
+        <div class="section">
+            <h2>不分區立委</h2>
+            <form method="POST" action="/update">
+                <input type="hidden" name="election_type" value="proportional">
+                <label>實際選票總數</label>
+                <input type="number" name="proportional_total_votes" value="{{ data.proportional.total_votes }}" min="0">
+                <label>不分區總席次</label>
+                <input type="number" name="proportional_total_seats" value="{{ data.proportional.total_seats }}" min="0">
+                <br>
+                {% for group, details in data.proportional.seats.items() %}
+                    <div>
+                        <label>{{ group }}票數</label>
+                        <input type="number" name="{{ group }}_votes" value="{{ details.votes }}" min="0">
+                        <label>{{ group }}席次</label>
+                        <input type="number" name="{{ group }}_seats" value="{{ details.seats }}" min="0">
+                        <label>{{ group }}百分比</label>
+                        <input type="text" value="{{ details.percentage }}%" readonly>
+                        <label>手動增加席次</label>
+                        <input type="number" name="{{ group }}_manual_seats" value="0" min="0">
+                    </div>
+                {% endfor %}
+
+                <button type="submit">更新不分區立委數據</button>
+            </form>
+        </div>
     </div>
 
     <div class="section">
         <h2>區域立委</h2>
         <form method="POST" action="/update">
-            <input type="hidden" name="election_type" value="legislative">
-            {% for area in data.legislative.areas %}
-                <h3>{{ area.area }}</h3>
-                <label>總票數</label>
-                <input type="number" name="{{ area.area }}_total_votes" value="{{ area.total_votes }}" readonly>
-                <br>
-                {% for i, candidate in enumerate(area.candidates) %}
-                    <input type="checkbox" name="{{ area.area }}_candidate_{{ i }}_elected" {% if candidate.elected %}checked{% endif %}>
-                    <label>{{ candidate.name }}</label>
-                    <input type="number" name="{{ area.area }}_candidate_{{ i }}_votes" value="{{ candidate.votes }}" min="0">
-                    <label>得票率</label>
-                    <input type="text" value="{{ candidate.percentage }}%" readonly>
-                    <br>
+            <div class="flex-container">
+                {% for area in data.legislative.areas %}
+                    <div class="flex-item">
+                        <h3>{{ area.area }}</h3>
+                        <label>總票數</label>
+                        <input type="number" name="{{ area.area }}_total_votes" value="{{ area.total_votes }}" readonly>
+                        <br>
+                        {% for i, candidate in enumerate(area.candidates) %}
+                            <input type="checkbox" name="{{ area.area }}_candidate_{{ i }}_elected" {% if candidate.elected %}checked{% endif %}>
+                            <label>{{ candidate.name }}</label>
+                            <input type="number" name="{{ area.area }}_candidate_{{ i }}_votes" value="{{ candidate.votes }}" min="0">
+                            <label>得票率</label>
+                            <input type="text" value="{{ candidate.percentage }}%" readonly>
+                            <br>
+                        {% endfor %}
+                    </div>
                 {% endfor %}
-            {% endfor %}
+            </div>
             <button type="submit">更新區域立委數據</button>
         </form>
     </div>
 
-    <div class="section">
-        <h2>不分區立委</h2>
-        <form method="POST" action="/update">
-            <input type="hidden" name="election_type" value="proportional">
-            {% for group, details in data.proportional.seats.items() %}
-                <label>{{ group }}席次</label>
-                <input type="number" name="{{ group }}_seats" value="{{ details.seats }}" min="0">
-                <label>{{ group }}百分比</label>
-                <input type="number" step="0.01" name="{{ group }}_percentage" value="{{ details.percentage }}" min="0" max="100">
-                <br>
-            {% endfor %}
-            <label>不分區總席次</label>
-            <input type="number" name="total_seats" value="{{ data.proportional.total_seats }}" min="0">
-            <label>實際選票人數</label>
-            <input type="number" name="total_votes" value="{{ data.proportional.total_votes }}" min="0">
-            <button type="submit">更新不分區立委數據</button>
-        </form>
-    </div>
+    <div class="horizontal-container">
+        <div class="section" id="ticker-section">
+            <h2>字幕</h2>
+            <form method="POST" action="/update">
+                <input type="hidden" name="election_type" value="ticker">
+                <label>字幕內容</label>
+                <input type="text" name="ticker_text" value="{{ data.ticker_text }}" class="long-input">
+                <button type="submit">更新字幕</button>
+            </form>
+        </div>
 
-    <div class="section">
-        <h2>字幕</h2>
-        <form method="POST" action="/update">
-            <input type="hidden" name="election_type" value="ticker">
-            <label>字幕內容</label>
-            <input type="text" name="ticker_text" value="{{ data.ticker_text }}">
-            <button type="submit">更新字幕</button>
-        </form>
-    </div>
+        <div class="section">
+            <h2>導播</h2>
+            <form method="POST" action="/update">
+                <input type="hidden" name="election_type" value="display_mode">
+                <label>選擇顯示模式</label>
+                <select name="display_mode">
+                    <option value="presidential" {% if data.display_mode == 'presidential' %}selected{% endif %}>總統選舉</option>
+                    <option value="legislative" {% if data.display_mode == 'legislative' %}selected{% endif %}>區域立委</option>
+                    <option value="proportional" {% if data.display_mode == 'proportional' %}selected{% endif %}>不分區立委</option>
+                    <option value="auto" {% if data.display_mode == 'auto' %}selected{% endif %}>自動</option>
+                </select>
+                <button type="submit">更新前台</button>
+                <div class="indicator" id="auto-mode-indicator"></div>
+            </form>
 
-    <div class="section">
-        <h2>導播模式</h2>
-        <form method="POST" action="/update">
-            <input type="hidden" name="election_type" value="display_mode">
-            <label>選擇顯示模式</label>
-            <select name="display_mode">
-                <option value="presidential" {% if data.display_mode == 'presidential' %}selected{% endif %}>總統選舉</option>
-                <option value="legislative" {% if data.display_mode == 'legislative' %}selected{% endif %}>區域立委</option>
-                <option value="proportional" {% if data.display_mode == 'proportional' %}selected{% endif %}>不分區立委</option>
-                <option value="auto" {% if data.display_mode == 'auto' %}selected{% endif %}>自動</option>
-            </select>
-            <button type="submit">更新導播模式</button>
-        </form>
+        </div>
     </div>
 </body>
 </html>
