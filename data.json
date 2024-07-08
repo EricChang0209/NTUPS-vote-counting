@@ -28,7 +28,7 @@
                 "area": "中土都心",
                 "candidates": [
                     {
-                        "name": "哈囉",
+                        "name": "哈  囉",
                         "votes": 0,
                         "elected": false,
                         "percentage": 0.0
@@ -102,14 +102,17 @@
         "seats": {
             "建制派": {
                 "seats": 0,
+                "votes": 0,
                 "percentage": 0.0
             },
             "中間": {
                 "seats": 0,
+                "votes": 0,
                 "percentage": 0.0
             },
             "左派": {
                 "seats": 0,
+                "votes": 0,
                 "percentage": 0.0
             }
         },
@@ -117,7 +120,6 @@
         "total_votes": 580
     },
     "ticker_text": "投票時間結束 各開票所陸續回報狀態中",
-    "ticker_font_size": 50,
-    "display_mode": "legislative",
+    "display_mode": "presidential",
     "auto_display": "false"
 }
