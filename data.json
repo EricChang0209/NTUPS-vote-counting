@@ -118,5 +118,6 @@
     },
     "ticker_text": "投票時間結束 各開票所陸續回報狀態中",
     "ticker_font_size": 50,
-    "display_mode": "legislative"
+    "display_mode": "legislative",
+    "auto_display": "false"
 }
