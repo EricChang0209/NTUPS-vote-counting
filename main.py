@@ -27,7 +27,7 @@ def auto_switch_display_mode():
     while True:
         with lock:
             data = load_data()
-            if data["auto_display"] == "true":
+            if data["auto_display"] == True:
                 current_mode = data["display_mode"]
                 next_mode = {
                     "presidential": "legislative",
@@ -101,12 +101,10 @@ def update():
             form_display_mode = request.form["display_mode"]
 
             if form_display_mode == "auto":
-                data["auto_display"] = "true"
+                data["auto_display"] = True
             else:
-                data["auto_display"] = "false"
+                data["auto_display"] = False
                 data["display_mode"] = request.form["display_mode"]
-            # if data["display_mode"] != "auto" and "current_auto_mode" in data:
-            #     del data["current_auto_mode"]
 
         save_data(data)
     return redirect(url_for("control_panel"))
