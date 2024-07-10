@@ -61,17 +61,29 @@ def update():
                 candidate["elected"] = f"presidential_{i}_elected" in request.form
 
             for candidate in data["presidential"]["candidates"]:
-                candidate["percentage"] = round((candidate["votes"] / total_votes * 100), 1) if total_votes > 0 else 0
+                candidate["percentage"] = (
+                    round((candidate["votes"] / total_votes * 100), 1)
+                    if total_votes > 0
+                    else 0
+                )
 
         elif election_type == "legislative":
             for area in data["legislative"]["areas"]:
                 total_votes = area["total_votes"]
                 for i, candidate in enumerate(area["candidates"]):
-                    candidate["votes"] = int(request.form[f'{area["area"]}_candidate_{i}_votes'])
-                    candidate["elected"] = f'{area["area"]}_candidate_{i}_elected' in request.form
+                    candidate["votes"] = int(
+                        request.form[f'{area["area"]}_candidate_{i}_votes']
+                    )
+                    candidate["elected"] = (
+                        f'{area["area"]}_candidate_{i}_elected' in request.form
+                    )
 
                 for candidate in area["candidates"]:
-                    candidate["percentage"] = round((candidate["votes"] / total_votes * 100), 1) if total_votes > 0 else 0
+                    candidate["percentage"] = (
+                        round((candidate["votes"] / total_votes * 100), 1)
+                        if total_votes > 0
+                        else 0
+                    )
 
         elif election_type == "proportional":
             total_votes = int(request.form["proportional_total_votes"])
@@ -80,8 +92,12 @@ def update():
             data["proportional"]["total_votes"] = total_votes
             data["proportional"]["total_seats"] = total_seats
             for group, details in data["proportional"]["seats"].items():
-                details["votes"] = int(request.form[f'{group}_votes'])
-                details["percentage"] = round((details["votes"] / total_votes * 100), 2) if total_votes > 0 else 0
+                details["votes"] = int(request.form[f"{group}_votes"])
+                details["percentage"] = (
+                    round((details["votes"] / total_votes * 100), 2)
+                    if total_votes > 0
+                    else 0
+                )
                 manual_seats = int(request.form.get(f"{group}_manual_seats", 0))
                 if manual_seats > 0:
                     details["seats"] += manual_seats
@@ -114,6 +130,11 @@ def display():
 def get_data():
     data = load_data()
     return jsonify(data)
+
+
+@app.route("/static/<path:path>")
+def static_file(path):
+    return app.send_static_file(path)
 
 
 if __name__ == "__main__":
