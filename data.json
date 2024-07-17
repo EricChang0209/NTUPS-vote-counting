@@ -2,22 +2,31 @@
     "presidential": {
         "candidates": [
             {
+                "num": 1,
                 "name": "唐子涵/吳亞旗",
                 "votes": 0,
                 "elected": false,
-                "percentage": 0.0
+                "percentage": 0.0,
+                "picture_url": "http://127.0.0.1:5050/static/IMG_2508.JPG",
+                "color": "#FEEA87"
             },
             {
+                "num": 2,
                 "name": "張璿婷/陳宣宇",
                 "votes": 0,
                 "elected": false,
-                "percentage": 0.0
+                "percentage": 0.0,
+                "picture_url": "http://127.0.0.1:5050/static/du.jpg",
+                "color": "#ED83A2"
             },
             {
+                "num": 3,
                 "name": "鄭大邦/王宇彤",
                 "votes": 0,
                 "elected": false,
-                "percentage": 0.0
+                "percentage": 0.0,
+                "picture_url": "http://127.0.0.1:5050/static/",
+                "color": "#AB8DD9"
             }
         ],
         "total_votes": 580
@@ -28,70 +37,88 @@
                 "area": "中土都心",
                 "candidates": [
                     {
+                        "num": 1,
                         "name": "哈  囉",
                         "votes": 0,
                         "elected": false,
-                        "percentage": 0.0
+                        "percentage": 0.0,
+                        "color": "#FEEA87"
                     },
                     {
+                        "num": 2,
                         "name": "莊宸綾",
                         "votes": 0,
                         "elected": false,
-                        "percentage": 0.0
+                        "percentage": 0.0,
+                        "color": "#ED83A2"
                     },
                     {
+                        "num": 3,
                         "name": "謝啟昱",
                         "votes": 0,
                         "elected": false,
-                        "percentage": 0.0
+                        "percentage": 0.0,
+                        "color": "#AB8DD9"
                     }
                 ],
-                "total_votes": 196
+                "total_votes": 198
             },
             {
                 "area": "迦太基港都",
                 "candidates": [
                     {
+                        "num": 1,
                         "name": "李雅淇",
                         "votes": 0,
                         "elected": false,
-                        "percentage": 0.0
+                        "percentage": 0.0,
+                        "color": "#FEEA87"
                     },
                     {
+                        "num": 2,
                         "name": "賴成祐",
                         "votes": 0,
                         "elected": false,
-                        "percentage": 0.0
+                        "percentage": 0.0,
+                        "color": "#ED83A2"
                     },
                     {
+                        "num": 3,
                         "name": "林哲豪",
                         "votes": 0,
                         "elected": false,
-                        "percentage": 0.0
+                        "percentage": 0.0,
+                        "color": "#AB8DD9"
                     }
                 ],
-                "total_votes": 192
+                "total_votes": 190
             },
             {
                 "area": "艾爾夫礦林",
                 "candidates": [
                     {
+                        "num": 1,
                         "name": "王亭勻",
                         "votes": 0,
                         "elected": false,
-                        "percentage": 0.0
+                        "percentage": 0.0,
+                        "color": "#FEEA87"
                     },
                     {
+                        "num": 2,
                         "name": "王喜樂",
                         "votes": 0,
                         "elected": false,
-                        "percentage": 0.0
+                        "percentage": 0.0,
+                        "color": "#ED83A2"
                     },
                     {
+                        "num": 3,
                         "name": "王育晟",
                         "votes": 0,
                         "elected": false,
-                        "percentage": 0.0
+                        "percentage": 0.0,
+                        "color": "#AB8DD9"
                     }
                 ],
                 "total_votes": 192
@@ -100,26 +127,32 @@
     },
     "proportional": {
         "seats": {
-            "建制派": {
+            "保保吃守守": {
+                "num": 1,
                 "seats": 0,
                 "votes": 0,
-                "percentage": 0.0
+                "percentage": 0.0,
+                "color": "#FEEA87"
             },
-            "中間": {
+            "放你自由 還愛就重逢": {
+                "num": 2,
                 "seats": 0,
                 "votes": 0,
-                "percentage": 0.0
+                "percentage": 0.0,
+                "color": "#ED83A2"
             },
-            "左派": {
+            "可以社社": {
+                "num": 3,
                 "seats": 0,
                 "votes": 0,
-                "percentage": 0.0
+                "percentage": 0.0,
+                "color": "#AB8DD9"
             }
         },
         "total_seats": 8,
         "total_votes": 580
     },
     "ticker_text": "投票時間結束 各開票所陸續回報狀態中",
-    "display_mode": "presidential",
+    "display_mode": "proportional",
     "auto_display": "false"
 }
